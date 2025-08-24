@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Interpark Queue Discord Notif",
-  "description": "Get notifications in your discord server for you place in the interpark queue so you never sleep through your position again!",
+  "description": "Get notifications in your discord server for you place in the interpark queue so you never miss your time to ticket again!",
   "version": "1.0",
   "icons": {
     "16": "images/icon-16.png",
