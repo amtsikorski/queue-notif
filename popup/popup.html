@@ -1,36 +1,67 @@
 <html>
   <head>
+    <meta charset='UTF-8' />
     <style>
       body {
         min-width: 200px;
       }
+      label {
+        display: flex;
+      }
+      .svt-button {
+        transition-duration: 0.4s;
+        background-color: #F7CACA;
+        color: black;
+        border-radius: 4px;
+        text-align: center;
+        text-decoration: none;
+        padding: 10px 20px;
+        font-size: 12px;
+        border: none;
+      }
+      .svt-button:hover {
+        background-color: #93A9D1;
+        color: white;
+      }
       .inputBlock {
-        padding-bottom: 10px;
+        padding-bottom: 14px;
+      }
+      .tooltip {
+        cursor: pointer;
+        font-size: 9px;
+        margin-bottom: 5px;
+        margin-left:2px
       }
       #frequency {
         width: 45px;
+      }
+      #threshold {
+        width:70px;
       }
     </style>
   </head>
   <body>
       <h3>Queue Monitor Settings</h3>
       <div class="inputBlock">
-        <label for="webhook">Discord Webhook URL:</label>
+        <label for="webhook">Discord Webhook URL <span class="tooltip" data-help="webhook">ℹ️</span>:</label>
         <input type="text" name="webhook" id="webhook">
       </div>
       <div class="inputBlock">
-        <label for="frequency">Time between updates:</label><br>
+        <label for="frequency">Time between updates:</label>
         <span>every </span>
         <input type="number" name="frequency" id="frequency">
         <span> minute(s)</span>
       </div>
       <div class="inputBlock">
-        <label for="threshold">Special alert when position is less than:</label>
-        <input type="number" id="threshold">
+        <label for="userId">@ User ID <span class="tooltip" data-help="userid">ℹ️</span>:</label>
+        <input type="text" name="userId" id="userId">
+        <label for="threshold">when position is less than:</label>
+        <input type="number" name="threshold" id="threshold">
+        <div>every minute</div>
       </div>
-      <button id="start">Save & Start</button>
+      <button class="svt-button" id="start">Save & Start</button>
+      <button class="svt-button" id="stop" style="display: none;">Stop Updates</button>
       <p id="status"></p>
-      <button id="stop" style="display: none;">Stop Updates</button>
       <script src="popup.js"></script>
   </body>
 </html>
