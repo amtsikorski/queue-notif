@@ -1,4 +1,12 @@
 let tabId = null;
+
+function setStatus(text, active) {
+    const status = document.getElementById("status");
+    document.getElementById("statusText").textContent = text;
+    status.classList.toggle("visible", !!text);
+    status.classList.toggle("active", !!active);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   // Load saved values into inputs when popup opens
   chrome.storage.local.get(
@@ -13,10 +21,25 @@ document.addEventListener("DOMContentLoaded", () => {
     if (data.monitoringActive === true) {
         document.getElementById("start").style.display = "none";
         document.getElementById("stop").style.display = "";
-        document.getElementById("status").textContent = "Monitoring in progress.";
+        setStatus("Monitoring in progress", true);
     }
   });
 });
+
+const COLLAPSED_HEIGHT = 276;
+const EXPANDED_HEIGHT = 400;
+
+function resizePopupToContent() {
+    // The action popup is its own browser window, and Chrome only auto-grows
+    // it as content is added; it won't shrink the window back down on its own,
+    // so ask the window directly to match the new content height.
+    const accordion = document.querySelector(".accordion");
+    const height = accordion.open ? EXPANDED_HEIGHT : COLLAPSED_HEIGHT;
+    document.documentElement.style.height = `${height}px`;
+}
+
+document.querySelector(".accordion").addEventListener("toggle", resizePopupToContent);
+resizePopupToContent();
 
 document.querySelectorAll(".tooltip").forEach(el => {
   el.addEventListener("click", () => {
@@ -34,12 +57,12 @@ document.getElementById("start").addEventListener("click", () => {
     const threshold = parseInt(document.getElementById("threshold").value.trim(), 10);
 
     if (!webhook || !userId || isNaN(frequency) || isNaN(threshold)) {
-        document.getElementById("status").textContent = "Please fill in all fields.";
+        setStatus("Please fill in all fields", false);
         return;
     }
 
     chrome.storage.local.set({ webhook, frequency, userId, threshold }, () => {
-        document.getElementById("status").textContent = "Settings saved! Monitoring will start.";
+        setStatus("Settings saved, monitoring will start", true);
     });
 
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -75,5 +98,5 @@ document.getElementById("stop").addEventListener("click", () => {
     });
     document.getElementById("start").style.display = "";
     document.getElementById("stop").style.display = "none";
-    document.getElementById("status").textContent = "Monitoring stopped!";
+    setStatus("Monitoring stopped", false);
 });

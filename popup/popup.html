@@ -2,66 +2,235 @@
   <head>
     <meta charset='UTF-8' />
     <style>
+      :root {
+        --coral: #F7CACA;
+        --coral-deep: #EFA9A9;
+        --periwinkle: #93A9D1;
+        --tangerine: #F5A34D;
+        --ink: #2E2A2A;
+        --ink-soft: #8A7F7F;
+        --bg: #FFFBF9;
+        --border: #F0DEDE;
+      }
+      * {
+        box-sizing: border-box;
+      }
       body {
-        min-width: 200px;
+        width: 230px;
+        margin: 0;
+        padding: 16px 18px 18px;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      }
+      .header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+      .header h1 {
+        font-size: 14px;
+        font-weight: 600;
+        margin: 0;
+        letter-spacing: 0.01em;
+      }
+      .field {
+        margin-bottom: 14px;
       }
       label {
         display: flex;
-      }
-      .svt-button {
-        transition-duration: 0.4s;
-        background-color: #F7CACA;
-        color: black;
-        border-radius: 4px;
-        text-align: center;
-        text-decoration: none;
-        padding: 10px 20px;
+        align-items: center;
+        gap: 5px;
         font-size: 12px;
-        border: none;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 5px;
       }
-      .svt-button:hover {
-        background-color: #93A9D1;
-        color: white;
+      input[type="text"],
+      input[type="number"] {
+        padding: 7px 9px;
+        font-size: 12.5px;
+        font-family: inherit;
+        color: var(--ink);
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        outline: none;
+        transition: border-color 0.15s ease;
       }
-      .inputBlock {
-        padding-bottom: 14px;
+      input[type="text"] {
+        width: 100%;
+      }
+      input[type="text"]:focus,
+      input[type="number"]:focus {
+        border-color: var(--periwinkle);
+      }
+      .accordion {
+        margin-bottom: 16px;
+      }
+      .accordion summary {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 0 0 8px;
+        font-size: 12.5px;
+        font-weight: 600;
+        cursor: pointer;
+        color: var(--ink);
+      }
+      .accordion summary::-webkit-details-marker {
+        display: none;
+      }
+      .accordion summary .chevron {
+        transition: transform 0.15s ease;
+        font-size: 10px;
+        color: var(--ink-soft);
+      }
+      .accordion[open] summary .chevron {
+        transform: rotate(90deg);
+      }
+      .accordion .accordion-body {
+        padding-top: 4px;
+      }
+      .inline-field {
+        margin-bottom: 14px;
+      }
+      .inline-field .row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .inline-field label {
+        margin-bottom: 0;
+        white-space: nowrap;
+      }
+      .inline-field input[type="number"] {
+        width: 70px;
+        text-align: center;
+      }
+      .inline-field .hint {
+        display: block;
+        font-size: 11px;
+        font-weight: 400;
+        color: var(--ink-soft);
+        margin-top: 4px;
       }
       .tooltip {
         cursor: pointer;
-        font-size: 9px;
-        margin-bottom: 5px;
-        margin-left:2px
+        font-size: 11px;
+        line-height: 1;
+        width: 14px;
+        height: 14px;
+        flex: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: var(--coral-deep);
+        color: #fff;
+        font-style: normal;
+        font-weight: 700;
       }
-      #frequency {
-        width: 45px;
+      .tooltip:hover {
+        background: var(--periwinkle);
       }
-      #threshold {
-        width:70px;
+      .actions {
+        margin-top: 4px;
+      }
+      button {
+        width: 100%;
+        transition: background-color 0.2s ease, color 0.2s ease;
+        background-color: var(--coral);
+        color: var(--ink);
+        border-radius: 7px;
+        text-align: center;
+        text-decoration: none;
+        padding: 10px 16px;
+        font-size: 12.5px;
+        font-weight: 600;
+        font-family: inherit;
+        border: none;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: var(--periwinkle);
+        color: white;
+      }
+      #stop {
+        background-color: #fff;
+        color: var(--ink);
+        border: 1px solid var(--border);
+      }
+      #stop:hover {
+        background-color: #fff;
+        color: var(--periwinkle);
+        border-color: var(--periwinkle);
+      }
+      #status {
+        display: none;
+        align-items: center;
+        gap: 6px;
+        font-size: 11.5px;
+        color: var(--ink-soft);
+        margin: 10px 0 0;
+      }
+      #status.visible {
+        display: flex;
+      }
+      #status .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--ink-soft);
+        flex: none;
+      }
+      #status.active {
+        color: var(--ink);
+      }
+      #status.active .dot {
+        background: var(--tangerine);
+        box-shadow: 0 0 0 3px rgba(245, 163, 77, 0.25);
       }
     </style>
   </head>
   <body>
-      <h3>Queue Monitor Settings</h3>
-      <div class="inputBlock">
-        <label for="webhook">Discord Webhook URL <span class="tooltip" data-help="webhook">ℹ️</span>:</label>
-        <input type="text" name="webhook" id="webhook">
+      <div class="header">
+        <h1>Queue Monitor</h1>
       </div>
-      <div class="inputBlock">
-        <label for="frequency">Time between updates:</label>
-        <span>every </span>
-        <input type="number" name="frequency" id="frequency">
-        <span> minute(s)</span>
+      <details class="accordion">
+        <summary><span class="chevron">▸</span> Discord settings</summary>
+        <div class="accordion-body">
+          <div class="field">
+            <label for="webhook">Webhook URL <i class="tooltip" data-help="webhook">i</i></label>
+            <input type="text" name="webhook" id="webhook" placeholder="https://discord.com/api/webhooks/...">
+          </div>
+          <div class="field" style="margin-bottom: 0;">
+            <label for="userId">User ID <i class="tooltip" data-help="userid">i</i></label>
+            <input type="text" name="userId" id="userId" placeholder="e.g. 123456789012345678">
+          </div>
+        </div>
+      </details>
+      <div class="inline-field">
+        <div class="row">
+          <label for="frequency">Update every</label>
+          <input type="number" name="frequency" id="frequency" min="1">
+        </div>
+        <span class="hint">minutes, while in queue</span>
       </div>
-      <div class="inputBlock">
-        <label for="userId">@ User ID <span class="tooltip" data-help="userid">ℹ️</span>:</label>
-        <input type="text" name="userId" id="userId">
-        <label for="threshold">when position is less than:</label>
-        <input type="number" name="threshold" id="threshold">
-        <div>every minute</div>
+      <div class="inline-field">
+        <div class="row">
+          <label for="threshold">Alert below</label>
+          <input type="number" name="threshold" id="threshold" min="1">
+        </div>
+        <span class="hint">queue position</span>
       </div>
-      <button class="svt-button" id="start">Save & Start</button>
-      <button class="svt-button" id="stop" style="display: none;">Stop Updates</button>
-      <p id="status"></p>
+      <div class="actions">
+        <button id="start">Save &amp; start</button>
+        <button id="stop" style="display: none;">Stop updates</button>
+      </div>
+      <p id="status"><span class="dot"></span><span id="statusText"></span></p>
       <script src="popup.js"></script>
   </body>
 </html>

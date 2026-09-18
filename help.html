@@ -3,86 +3,219 @@
   <meta charset='UTF-8' />
   <title>Queue Monitor Help</title>
   <style>
+    :root {
+      --coral: #F7CACA;
+      --coral-deep: #EFA9A9;
+      --periwinkle: #93A9D1;
+      --tangerine: #F5A34D;
+      --ink: #2E2A2A;
+      --ink-soft: #766B6B;
+      --bg: #FFFBF9;
+      --border: #F0DEDE;
+    }
+    * {
+      box-sizing: border-box;
+    }
     body {
-        margin: 30px;
-        background-color: #F7CACA;
+      margin: 0;
+      padding: 40px 24px 60px;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
-    img {
-        margin: 15px;
-        border: 5px solid #93A9D1;
+    .page {
+      max-width: 720px;
+      margin: 0 auto;
     }
-    p {
-        font-size: 12px;
+    .page-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 36px;
     }
-    .main {
-        background-color: white;
-        padding: 10px 30px 0 30px;
+    .page-header img {
+      width: 40px;
+      height: 40px;
     }
-    .section {
-        margin-left: 20px;
-        padding-bottom: 10px;
+    .page-header h1 {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 0;
+      line-height: 1.2;
     }
-    .inner-section {
-        margin-left: 10px;
+    .page-header p {
+      margin: 3px 0 0;
+      font-size: 13px;
+      color: var(--ink-soft);
+    }
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 28px 8px;
+      margin-bottom: 24px;
+    }
+    .card h2 {
+      font-size: 17px;
+      font-weight: 700;
+      margin: 0 0 20px;
+    }
+    .step {
+      display: flex;
+      gap: 16px;
+      padding-bottom: 24px;
+    }
+    .step-number {
+      flex: none;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--coral);
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .step-body {
+      flex: 1;
+      min-width: 0;
+    }
+    .step-body h3 {
+      font-size: 13.5px;
+      font-weight: 600;
+      margin: 2px 0 6px;
+    }
+    .step-body p {
+      font-size: 12.5px;
+      line-height: 1.55;
+      color: var(--ink-soft);
+      margin: 0 0 12px;
+      max-width: 60ch;
+    }
+    .step-body img {
+      display: block;
+      max-width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      margin-bottom: 10px;
+    }
+    .tips {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+    .tip {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--periwinkle);
+      border-radius: 10px;
+      padding: 16px 18px;
+    }
+    .tip h3 {
+      font-size: 13px;
+      font-weight: 700;
+      margin: 0 0 6px;
+    }
+    .tip p {
+      font-size: 12.5px;
+      line-height: 1.55;
+      color: var(--ink-soft);
+      margin: 0;
+    }
+    section {
+      margin-bottom: 32px;
+    }
+    section > h2.section-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: none;
+      color: var(--ink-soft);
+      margin: 0 0 14px;
     }
   </style>
 </head>
 <body>
-    <div class="main">
-        <h1>Queue Monitor Help</h1>
-        <div class="section">
-            <h2 id="webhook">Get Discord Webhook URL</h2>
-            <div class="inner-section">
-                <h3>step 1: Determine server/channel to put bot in</h3>
-                <p>Determine what server you want the bot to run in (you must have admin privelages).
-                You can create a new server or use an existing one. Then, determine what channel that the bot will
-                send its updates. This can also be created new or an existing one.</p>
-                <h3>step 2: Create bot in server</h3>
-                <p>
-                    <div>Open server settings</div>
-                    <img src="images/instruct4.PNG">
-                    <div>Click 'Integrations' in side  bar, click Webhooks</div>
-                    <img src="images/instruct5.PNG">
-                    <div>Clik 'New Webhook'. Change Name and Channel to your preferences.
-                        It's nice to have its own channel so you can change the notification settings to only @mentions.</div>
-                    <img src="images/instruct6.PNG">
-                </p>
-                <h3>step 3: Copy Webhook URL</h3>
-                <p>
-                    <div>Click 'Copy Webhook URL' and paste it into the Queue Monitor Settings popup window</div>
-                    <img src="images/instruct7.PNG">
-                </p>
-            </div>
-        </div>
-        <div class="section">
-            <h2 id="userid">Get User ID</h2>
-            <div class="inner-section">
-                <h3>step 1: Turn on developer mode</h3>
-                <p>
-                    <div>Click the discord settings wheel</div>
-                    <img src="images/instruct1.PNG">
-                    <div>Click 'Advanced' in the side bar, turn on 'Developer Mode'</div>
-                    <img src="images/instruct2.PNG">
-                </p>
-                <h3>step 2: Copy User ID</h3>
-                <p>
-                    <div>Open user profile, click 'Copy User ID', and paste it into the Queue Monitor Settings popup window</div>
-                    <img src="images/instruct3.PNG">
-                </p>
-            </div>
-        </div>
-        <div class="section">
-            <h2>General Tips</h2>
-            <div class="inner-section">
-                <h3>Inactivity</h3>
-                <p>If your page ticketing page gives a popup that says you've been inactive for too long,
-                    make sure you have the page ticketing page 'active' (last clicked on) before you walk away from the computer
-                </p>
-                <h3>Notifications</h3>
-                <p>Set the channel that the bot is posting in to notify only when you've been mentioned.
-                </p>
-            </div>
-        </div>
+  <div class="page">
+    <div class="page-header">
+      <img src="images/icon-128.png" alt="boo seungkwan boo seungkwan boo seungkwan">
+      <div>
+        <h1>Queue Monitor help</h1>
+        <p>Set up Discord notifications for your queue position in a couple of minutes.</p>
+      </div>
     </div>
+
+    <section>
+      <div class="card">
+        <h2 id="webhook">Get your Discord webhook URL</h2>
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-body">
+            <h3>Pick a server and channel</h3>
+            <p>Choose the server you want the bot to post in (you'll need admin permissions there), and the channel it should send updates to. Either can be new or one you already use.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-body">
+            <h3>Create the webhook</h3>
+            <p>Open the server settings.</p>
+            <img src="images/instruct4.PNG">
+            <p>Click Integrations in the sidebar, then Webhooks.</p>
+            <img src="images/instruct5.PNG">
+            <p>Click New Webhook, then set its name and channel. Giving it its own channel makes it easy to mute everything except @mentions.</p>
+            <img src="images/instruct6.PNG">
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-body">
+            <h3>Copy the Webhook URL into the extension</h3>
+            <p>Click Copy Webhook URL and paste it into the Webhook URL field in the Queue Monitor popup.</p>
+            <img src="images/instruct7.PNG">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="card">
+        <h2 id="userid">Get your Discord user ID</h2>
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-body">
+            <h3>Turn on developer mode</h3>
+            <p>Open Discord settings.</p>
+            <img src="images/instruct1.PNG">
+            <p>Click Advanced in the sidebar, then turn on Developer Mode.</p>
+            <img src="images/instruct2.PNG">
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-body">
+            <h3>Copy your user ID into the extension</h3>
+            <p>Open your user profile, click Copy User ID, and paste it into the User ID field in the Queue Monitor popup.</p>
+            <img src="images/instruct3.PNG">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">General tips</h2>
+      <div class="tips">
+        <div class="tip">
+          <h3>Inactivity warnings</h3>
+          <p>If the ticketing page warns that you've been inactive too long, keep that tab active (last clicked) rather than switching away while you wait.</p>
+        </div>
+        <div class="tip">
+          <h3>Notification volume</h3>
+          <p>Set the bot's channel to notify only on @mentions, so you only hear from it when your position crosses the threshold.</p>
+        </div>
+      </div>
+    </section>
+  </div>
 </body>
 </html>
