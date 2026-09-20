@@ -2,13 +2,18 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendReponse) {
     let params = JSON.parse(message);
     console.log(params);
     if (params.action === 'start') {
-        console.log('starting monitor')
-        chrome.storage.local.set({
-            tabId: params.tabId,
-            monitoringActive: true
-        });
-        startQueueMonitor(params.webhook, params.frequency, params.userId, params.threshold);
-        chrome.runtime.sendMessage({ action: "started" });
+        console.log('attempting to start monitor')
+        try {
+            startQueueMonitor(params.webhook, params.frequency, params.userId, params.threshold);
+            chrome.storage.local.set({
+                tabId: params.tabId,
+                monitoringActive: true
+            });
+            chrome.runtime.sendMessage({ action: "started" });
+        } catch (e) {
+            console.error(e);
+            chrome.runtime.sendMessage({ action: "error", message: "Queue position element not found. Is your open tab on Interpark?" });
+        }
     } else if (params.action === 'stop') {
         console.log('clearing interval: ' + notifInterval);
         clearInterval(notifInterval);
@@ -21,8 +26,7 @@ let checksPerReport = 0;
 function getPosition() {
     const el = document.querySelector(".StatusBox_mainText__9gJXJ strong");
     if (!el) {
-        console.warn("Queue position element not found.");
-        return 0;
+        throw new Error("Queue position element not found.");
     }
     const pos = el.innerText;
     console.log(`Queue position: ${pos}`);

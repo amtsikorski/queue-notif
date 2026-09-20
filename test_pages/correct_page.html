@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Correct Test Page</title>
+<style>
+  body {
+    font-family: sans-serif;
+    max-width: 400px;
+    margin: 40px auto;
+  }
+  .StatusBox_mainText__9gJXJ {
+    font-size: 24px;
+    margin-bottom: 24px;
+  }
+  .controls {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  label {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .buttons {
+    display: flex;
+    gap: 8px;
+  }
+  button {
+    flex: 1;
+    padding: 8px;
+  }
+</style>
+</head>
+<body>
+<h1>Queue Test Page</h1>
+
+<div class="StatusBox_mainText__9gJXJ">
+  Position: <strong id="pos">10000</strong>
+</div>
+
+<div class="controls">
+  <label>
+    Starting position
+    <input type="number" id="startPos" value="10000">
+  </label>
+  <label>
+    Decrement rate (per second)
+    <input type="number" id="rate" value="100">
+  </label>
+</div>
+
+<div class="buttons">
+  <button id="start">Start</button>
+  <button id="stop">Stop</button>
+  <button id="restart">Restart</button>
+</div>
+
+<script>
+  const posEl = document.getElementById("pos");
+  const startPosInput = document.getElementById("startPos");
+  const rateInput = document.getElementById("rate");
+  const startBtn = document.getElementById("start");
+  const stopBtn = document.getElementById("stop");
+  const restartBtn = document.getElementById("restart");
+
+  let intervalId = null;
+
+  function setInputsDisabled(disabled) {
+    startPosInput.disabled = disabled;
+    rateInput.disabled = disabled;
+  }
+
+  function tick(rate) {
+    let current = parseInt(posEl.textContent.replace(/,/g, ""), 10);
+    current -= rate;
+    if (current <= 0) {
+      current = 0;
+      posEl.textContent = current.toLocaleString();
+      clearInterval(intervalId);
+      intervalId = null;
+      setInputsDisabled(false);
+      return;
+    }
+    posEl.textContent = current.toLocaleString();
+  }
+
+  function startCountdown() {
+    if (intervalId) return;
+    const startPos = parseInt(startPosInput.value, 10) || 0;
+    const rate = parseInt(rateInput.value, 10) || 0;
+    posEl.textContent = startPos.toLocaleString();
+    if (startPos <= 0 || rate <= 0) return;
+    setInputsDisabled(true);
+    intervalId = setInterval(() => tick(rate), 1000);
+  }
+
+  function stopCountdown() {
+    if (intervalId) {
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+    setInputsDisabled(false);
+  }
+
+  function restartCountdown() {
+    stopCountdown();
+    startCountdown();
+  }
+
+  startBtn.addEventListener("click", startCountdown);
+  stopBtn.addEventListener("click", stopCountdown);
+  restartBtn.addEventListener("click", restartCountdown);
+</script>
+</body>
+</html>

@@ -50,6 +50,16 @@ document.querySelectorAll(".tooltip").forEach(el => {
   });
 });
 
+chrome.runtime.onMessage.addListener((msg) => {
+    if (msg.action === "error") {
+        setStatus(msg.message, false);
+        document.getElementById("start").style.display = "";
+        document.getElementById("stop").style.display = "none";
+    } else if (msg.action === "started") {
+        setStatus("Monitoring in progress", true);
+    }
+});
+
 document.getElementById("start").addEventListener("click", () => {
     const webhook = document.getElementById("webhook").value.trim();
     const frequency = parseInt(document.getElementById("frequency").value.trim(), 10);
@@ -62,7 +72,7 @@ document.getElementById("start").addEventListener("click", () => {
     }
 
     chrome.storage.local.set({ webhook, frequency, userId, threshold }, () => {
-        setStatus("Settings saved, monitoring will start", true);
+        setStatus("Settings saved, monitoring will attempt to start", true);
     });
 
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
