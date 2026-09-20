@@ -10,13 +10,14 @@ function setStatus(text, active) {
 document.addEventListener("DOMContentLoaded", () => {
   // Load saved values into inputs when popup opens
   chrome.storage.local.get(
-    ["webhook", "frequency", "userId", "threshold", "tabId", "monitoringActive"],
+    ["webhook", "frequency", "userId", "threshold", "estimateTime", "tabId", "monitoringActive"],
     (data) => {
     console.log(data);
     if (data.webhook) document.getElementById("webhook").value = data.webhook;
     if (data.frequency) document.getElementById("frequency").value = data.frequency;
     if (data.userId) document.getElementById("userId").value = data.userId;
     if (data.threshold) document.getElementById("threshold").value = data.threshold;
+    if (data.estimateTime) document.getElementById("estimateTime").checked = !!data.estimateTime;
     if (data.tabId) tabId = data.tabId;
     if (data.monitoringActive === true) {
         document.getElementById("start").style.display = "none";
@@ -26,8 +27,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-const COLLAPSED_HEIGHT = 276;
-const EXPANDED_HEIGHT = 400;
+const COLLAPSED_HEIGHT = 322;
+const EXPANDED_HEIGHT = 446;
 
 function resizePopupToContent() {
     // The action popup is its own browser window, and Chrome only auto-grows
@@ -65,13 +66,14 @@ document.getElementById("start").addEventListener("click", () => {
     const frequency = parseInt(document.getElementById("frequency").value.trim(), 10);
     const userId = document.getElementById("userId").value.trim();
     const threshold = parseInt(document.getElementById("threshold").value.trim(), 10);
+    const estimateTime = document.getElementById("estimateTime").checked;
 
     if (!webhook || !userId || isNaN(frequency) || isNaN(threshold)) {
         setStatus("Please fill in all fields", false);
         return;
     }
 
-    chrome.storage.local.set({ webhook, frequency, userId, threshold }, () => {
+    chrome.storage.local.set({ webhook, frequency, userId, threshold, estimateTime }, () => {
         setStatus("Settings saved, monitoring will attempt to start", true);
     });
 
@@ -84,6 +86,7 @@ document.getElementById("start").addEventListener("click", () => {
             frequency: frequency,
             userId: userId,
             threshold: threshold,
+            estimateTime: estimateTime,
             tabId: tabId
         };
         chrome.scripting.executeScript({

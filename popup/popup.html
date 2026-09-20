@@ -117,6 +117,26 @@
         color: var(--ink-soft);
         margin-top: 4px;
       }
+      .checkbox-field {
+        margin-bottom: 14px;
+      }
+      .checkbox-field label {
+        display: flex;
+        align-items: flex-start;
+        gap: 7px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 0;
+        cursor: pointer;
+      }
+      .checkbox-field input[type="checkbox"] {
+        width: 14px;
+        height: 14px;
+        margin: 3px 0 0;
+        flex: none;
+        cursor: pointer;
+      }
       .tooltip {
         cursor: pointer;
         font-size: 11px;
@@ -225,6 +245,12 @@
           <input type="number" name="threshold" id="threshold" min="1">
         </div>
         <span class="hint">queue position</span>
+      </div>
+      <div class="checkbox-field">
+        <label for="estimateTime">
+          <input type="checkbox" name="estimateTime" id="estimateTime">
+          Add time left estimation to notification
+        </label>
       </div>
       <div class="actions">
         <button id="start">Save &amp; start</button>
