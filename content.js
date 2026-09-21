@@ -1,3 +1,6 @@
+if (!window.__queueMonitorInjected) {
+window.__queueMonitorInjected = true;
+
 chrome.runtime.onMessage.addListener(function(message, sender, sendReponse) {
     let params = JSON.parse(message);
     console.log(params);
@@ -155,4 +158,6 @@ function startQueueMonitor(webhook, frequency, userId, threshold, estimateTime) 
     }
     postPosition(webhook, initialUpdate);
     notifInterval = setInterval(checkPosition, checkInterval, webhook, userId, threshold, estimateTime);
+}
+
 }

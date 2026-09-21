@@ -1,6 +1,16 @@
 let monitoredTabId = null;
 let originalUrl = null;
 
+function resetMonitoringState() {
+    chrome.storage.local.set({
+        tabId: "",
+        monitoringActive: false
+    });
+    chrome.runtime.sendMessage({ action: "stopped" });
+    monitoredTabId = null;
+    originalUrl = null;
+}
+
 chrome.runtime.onMessage.addListener((msg, sender) => {
     if (msg.action === "started") {
         console.log('tab: ' + sender.tab.id + ', url: ' + sender.tab.url)
@@ -17,11 +27,13 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     changeInfo.url !== originalUrl
   ) {
     console.log("Navigated away, resetting some storage...");
-    chrome.storage.local.set({
-        tabId: "",
-        monitoringActive: false
-    });
-    monitoredTabId = null;
-    originalUrl = null;
+    resetMonitoringState();
+  }
+});
+
+chrome.tabs.onRemoved.addListener((tabId) => {
+  if (monitoredTabId && tabId === monitoredTabId) {
+    console.log("Monitored tab closed, resetting some storage...");
+    resetMonitoringState();
   }
 });

@@ -31,9 +31,6 @@ const COLLAPSED_HEIGHT = 322;
 const EXPANDED_HEIGHT = 446;
 
 function resizePopupToContent() {
-    // The action popup is its own browser window, and Chrome only auto-grows
-    // it as content is added; it won't shrink the window back down on its own,
-    // so ask the window directly to match the new content height.
     const accordion = document.querySelector(".accordion");
     const height = accordion.open ? EXPANDED_HEIGHT : COLLAPSED_HEIGHT;
     document.documentElement.style.height = `${height}px`;
@@ -58,6 +55,10 @@ chrome.runtime.onMessage.addListener((msg) => {
         document.getElementById("stop").style.display = "none";
     } else if (msg.action === "started") {
         setStatus("Monitoring in progress", true);
+    } else if (msg.action === "stopped") {
+        document.getElementById("start").style.display = "";
+        document.getElementById("stop").style.display = "none";
+        setStatus("Monitoring stopped", false);
     }
 });
 

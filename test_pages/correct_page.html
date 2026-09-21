@@ -82,6 +82,9 @@
       clearInterval(intervalId);
       intervalId = null;
       setInputsDisabled(false);
+      setTimeout(() => {
+        window.location.href = "post_queue.html";
+      }, 1500);
       return;
     }
     posEl.textContent = current.toLocaleString();
